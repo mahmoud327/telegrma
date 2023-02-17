@@ -36,12 +36,12 @@ $botman->hears('Hi', function (BotMan $bot) {
 
 $botman->hears('start', function (BotMan $bot) {
     $bot->startConversation(new QuizConversation());
-});
+})->stopsConversation();
 
-$botman->hears('close', function (BotMan $bot) {
-    $bot->reply('Closing conversation...');
-    $bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
-});
+// $botman->hears('close', function (BotMan $bot) {
+//     $bot->reply('Closing conversation...');
+//     $bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
+// });
 
 
 // $botman->hears('Start conversation', BotManController::class.'@startConversation');

@@ -3,6 +3,8 @@
 namespace App\Conversations;
 
 use App\Models\Question;
+use App\Models\UserScore;
+use BotMan\BotMan\Interfaces\UserInterface;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Question as BotManQuestion;
@@ -71,6 +73,8 @@ class QuizConversation extends Conversation
                 $answerResult = '❌';
             } else {
                 $this->userPoints += 1;
+                $this->userCorrectAnswers++;
+
                 $answerResult = '✅';
             }
             $this->quizQuestions->forget($question->id);
@@ -78,7 +82,10 @@ class QuizConversation extends Conversation
 
             $this->currentQuestion++;
 
-            $this->say("Your answer:{$this->currentQuestion} {$answer->getText()} {$answerResult}");
+            $this->say("Your answer:{$answer->getText()} {$answerResult}");
+
+             $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
+
 
             return $this->checkForNextQuestion();
 
@@ -89,19 +96,36 @@ class QuizConversation extends Conversation
     {
 
         if ($this->userPoints >= ceil($this->questionCount /2) ) {
-            $this->say('your win 🏁');
-            
+            $this->say("yor score: {$this->userPoints} your win 🏁");
+
         } else {
-            $this->say('your fail');
+            $this->say("your  score:  {$this->userPoints}  your win");
 
         }
 
-        $this->bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
+        // $this->bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
 
         // $this->stopsConversation('your win');
 
 
 
     }
+
+        public  function saveUser(UserInterface $botUser, int $userPoints, int $userCorrectAnswers)
+    {
+        $user = UserScore::updateOrCreate(['chat_id' => $botUser->getId()], [
+            'chat_id' => $botUser->getId(),
+            'name' => $botUser->getFirstName().' '.$botUser->getLastName(),
+            'points' => $userPoints,
+            'correct_answers' => $userCorrectAnswers,
+        ]);
+
+        $user->increment('tries');
+
+        $user->save();
+
+        // return $user;
+    }
+
 
 }
