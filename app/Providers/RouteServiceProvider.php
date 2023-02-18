@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
             // Route::middleware('web')->
             //     group(base_path('routes/botman.php'));
         });
-        require(base_path('routes/botman.php'));
+        // require(base_path('routes/botman.php'));
     }
 
     /**

@@ -25,12 +25,14 @@ use \Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
 
+ Route::redirect('/', 'admin/login-page');
 
 Auth::routes();
 
 Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ] ], function()
 {
+
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
         Route::get('login-page', 'AuthController@loginPage')->name('admin.login.page');

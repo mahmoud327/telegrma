@@ -8,12 +8,16 @@
     <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
     <!---Internal  Owl Carousel css-->
-    <link href="{{URL::asset('assets/plugins/owl-carousel/owl.carousel.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('assets/plugins/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
     <!--- Internal Sweet-Alert css-->
-    <link href="{{URL::asset('assets/plugins/sweet-alert/sweetalert.css')}}" rel="stylesheet">
-
+    <link href="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.css') }}" rel="stylesheet">
+    <style>
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+            display: none;
+        }
+    </style>
 @section('title')
-    {{ trans('lang.page_title_of_account') }}
+    questions
 @stop
 
 @endsection
@@ -23,7 +27,7 @@
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">Dashboard</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                FAQs</span>
+                questions</span>
         </div>
     </div>
 </div>
@@ -38,7 +42,8 @@
         <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
             <div class="card-header text-danger font-weight-bold">
                 <i class="far fa-times-circle"></i> Error Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-danger">
                 <ul>
@@ -56,14 +61,13 @@
 
 
 @if (session()->has('Add'))
-
-
     <div class="col-lg-12 col-md-12">
         <!--Page Widget Error-->
         <div class="card bd-0 mg-b-20 bg-success-transparent alert p-0">
             <div class="card-header text-success font-weight-bold">
                 <i class="far fa-check-circle"></i> Success Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-success">
                 <strong>Well done!</strong> {{ session()->get('Add') }}
@@ -75,13 +79,13 @@
 @endif
 
 @if (session()->has('delete'))
-
     <div class="col-lg-12 col-md-12">
 
         <div class="card bd-0 mg-b-20 bg-danger-transparent alert p-0">
             <div class="card-header text-danger font-weight-bold">
                 <i class="far fa-times-circle"></i> Error Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-danger">
                 <strong>Oh snap!</strong> {{ session()->get('delete') }}
@@ -93,13 +97,13 @@
 @endif
 
 @if (session()->has('edit'))
-
     <div class="col-lg-12 col-md-12">
         <!--Page Widget Error-->
         <div class="card bd-0 mg-b-20 bg-info-transparent alert p-0">
             <div class="card-header text-info font-weight-bold">
                 <i class="far fa-question-circle"></i> Info Data
-                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">×</span></button>
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span
+                        aria-hidden="true">×</span></button>
             </div>
             <div class="card-body text-info">
                 <strong>Heads up!</strong> {{ session()->get('edit') }}
@@ -122,8 +126,8 @@
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
 
-                    <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale"
-                        data-toggle="modal" href="#modaldemo8">Add Question</a>
+                    <a class="modal-effect btn btn-outline-primary" data-effect="effect-scale" data-toggle="modal"
+                        href="#modaldemo8">Add Question</a>
 
                 </div>
 
@@ -142,8 +146,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($questions as $question )
-
+                            @foreach ($questions as $question)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $question->title }}</td>
@@ -151,8 +154,8 @@
                                     <td>{{ $question->answer }}</td>
                                     <td>
                                         <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                            data-toggle="modal"
-                                            href="#exampleModal2{{$question->id}}" title="edit"><i class="las la-pen"></i></a>
+                                            data-toggle="modal" href="#exampleModal2{{ $question->id }}"
+                                            title="edit"><i class="las la-pen"></i></a>
 
                                         <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
                                             data-toggle="modal" href="#modaldemo9{{ $question->id }}" title="delete"><i
@@ -166,6 +169,8 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $questions->links() }}
+
                 </div>
             </div>
         </div>
@@ -176,16 +181,16 @@
 
 
 
-    </div>
+</div>
 
-    @include('admin.questions.add_modal')
+@include('admin.questions.add_modal')
 
-    <!-- delete -->
-
-
+<!-- delete -->
 
 
-    <!-- row closed -->
+
+
+<!-- row closed -->
 </div>
 <!-- Container closed -->
 </div>
@@ -217,16 +222,16 @@
 
 
 <!--Internal  Datepicker js -->
-<script src="{{URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/jquery-ui/ui/widgets/datepicker.js') }}"></script>
 <!-- Internal Select2 js-->
-<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/rating/ratings.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/select2/js/select2.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/rating/ratings.js') }}"></script>
 <!--Internal  Sweet-Alert js-->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/jquery.sweet-alert.js') }}"></script>
 <!-- Sweet-alert js  -->
-<script src="{{URL::asset('assets/plugins/sweet-alert/sweetalert.min.js')}}"></script>
-<script src="{{URL::asset('assets/js/sweet-alert.js')}}"></script>
+<script src="{{ URL::asset('assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/sweet-alert.js') }}"></script>
 
 <script>
     $('#modaldemo9').on('show.bs.modal', function(event) {
