@@ -48,8 +48,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            // Route::middleware('web')
-            //     ->group(base_path('routes/botman.php'));
+            // Route::middleware('web')->
+            //     group(base_path('routes/botman.php'));
         });
         require(base_path('routes/botman.php'));
     }

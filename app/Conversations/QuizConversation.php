@@ -82,9 +82,10 @@ class QuizConversation extends Conversation
 
             $this->currentQuestion++;
 
-            $this->say("Your answer:{$answer->getText()} {$answerResult}");
+          $user= $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
 
-             $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
+            $this->say("{$user->name}-Your answer:{$answer->getText()} {$answerResult}");
+
 
 
             return $this->checkForNextQuestion();
@@ -96,10 +97,10 @@ class QuizConversation extends Conversation
     {
 
         if ($this->userPoints >= ceil($this->questionCount /2) ) {
-            $this->say("yor score: {$this->userPoints} your win 🏁");
+            $this->say("yor score: {$this->userPoints} you win 🏁");
 
         } else {
-            $this->say("your  score:  {$this->userPoints}  your win");
+            $this->say("your  score:  {$this->userPoints}  you lose");
 
         }
 
@@ -124,7 +125,7 @@ class QuizConversation extends Conversation
 
         $user->save();
 
-        // return $user;
+        return $user;
     }
 
 

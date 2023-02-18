@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Question;
+use App\Models\UserScore;
 use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
-class QuestionController extends Controller
+class UserScoreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        $questions = Question::all();
-        return view('admin.questions.index', compact('questions'));
+        $user_scroes = UserScore::latest()->paginate(10);
+        return view('admin.user_scores.index', compact('user_scroes'));
     }
 
     /**
@@ -30,12 +31,12 @@ class QuestionController extends Controller
     {
         $question=Question::create($request->all());
 
-    //    $telegram= Telegram::sendMessage([
-    //         'chat_id'=>'-849059038',
-    //         'text'=>
-    //         "title:".$question->title."\n".
-    //         "question:".$question->question
-    //      ]);
+       $telegram= Telegram::sendMessage([
+            'chat_id'=>'-849059038',
+            'text'=>
+            "title:".$question->title."\n".
+            "question:".$question->question
+         ]);
         session()->flash('Add', 'تم اضافة سجل بنجاح ');
         return redirect()->back();
     }
