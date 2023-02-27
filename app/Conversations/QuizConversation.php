@@ -64,7 +64,6 @@ class QuizConversation extends Conversation
 
         $this->ask($questionTemplate, function (Answer $answer) use ($question) {
 
-            // $this->bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
 
 
             $quizAnswer = Question::where('answer', $answer->getText())->first();
