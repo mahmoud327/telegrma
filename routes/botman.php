@@ -24,7 +24,7 @@ $config = [
 
 
 // Create an instance
-$botman = BotManFactory::create($config, new LaravelCache());
+$botman = BotManFactory::create($config);
 
 
 
