@@ -35,8 +35,8 @@ $botman->hears('Hi', function (BotMan $bot) {
 });
 
 $botman->hears('start', function (BotMan $bot) {
-    // $bot->startConversation(new QuizConversation());
-    $bot->reply('Hello! write start for begin exam');
+    $bot->startConversation(new QuizConversation());
+    // $bot->reply('Hello! write start for begin exam');
 
 })->stopsConversation();
 
