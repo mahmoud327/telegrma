@@ -151,7 +151,18 @@
                                     <td>{{ $score->correct_answers }}</td>
                                     <td>{{ $score->points }}</td>
 
+                                    <td>
+
+
+                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
+                                            data-toggle="modal" href="#modaldemo9{{ $score->id }}" title="delete"><i
+                                                class="las la-trash"></i></a>
+
+                                    </td>
+
                                 </tr>
+                                @include('admin.user_scores.delete_modal', ['score' => $score])
+
                             @endforeach
                         </tbody>
                     </table>
