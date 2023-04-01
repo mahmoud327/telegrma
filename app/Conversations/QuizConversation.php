@@ -15,15 +15,15 @@ class QuizConversation extends Conversation
     /** @var Question */
     protected $quizQuestions;
 
-/** @var integer */
+    /** @var integer */
     protected $userPoints = 0;
 
-/** @var integer */
+    /** @var integer */
     protected $userCorrectAnswers = 0;
 
-/** @var integer */
+    /** @var integer */
 
-/** @var integer */
+    /** @var integer */
     protected $currentQuestion = 1;
 
     protected $questionCount = 0;
@@ -38,7 +38,6 @@ class QuizConversation extends Conversation
         $this->quizQuestions = $this->quizQuestions->keyBy('id');
 
         $this->showInfo();
-
     }
     private function showInfo()
     {
@@ -81,9 +80,9 @@ class QuizConversation extends Conversation
 
             $this->currentQuestion++;
 
-          $user= $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
+            $user = $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
 
-          $user_name=UserScore::whereChatId($this->bot->getUser()->getId())->first();
+            $user_name = UserScore::whereChatId($this->bot->getUser()->getId())->first();
 
 
 
@@ -92,19 +91,16 @@ class QuizConversation extends Conversation
 
 
             return $this->checkForNextQuestion();
-
         });
     }
 
     private function showResult()
     {
 
-        if ($this->userPoints >= ceil($this->questionCount /2) ) {
+        if ($this->userPoints >= ceil($this->questionCount / 2)) {
             $this->say("yor score: {$this->userPoints} you win 🏁");
-
         } else {
             $this->say("your  score:  {$this->userPoints}  you lose");
-
         }
 
         // $this->bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
@@ -115,7 +111,7 @@ class QuizConversation extends Conversation
 
     }
 
-        public  function saveUser(UserInterface $botUser, int $userPoints, int $userCorrectAnswers)
+    public  function saveUser(UserInterface $botUser, int $userPoints, int $userCorrectAnswers)
     {
         $user = UserScore::updateOrCreate(['chat_id' => $botUser->getId()], [
             'points' => $userPoints,
@@ -128,6 +124,4 @@ class QuizConversation extends Conversation
 
         return $user;
     }
-
-
 }
