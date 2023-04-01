@@ -42,7 +42,7 @@ class QuizConversation extends Conversation
     }
     private function showInfo()
     {
-        $this->say('You will be shown ' . $this->questionCount . ' somw questions. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
+        $this->say('You will be shown ' . $this->questionCount . ' some questions. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
         $this->checkForNextQuestion();
     }
 
