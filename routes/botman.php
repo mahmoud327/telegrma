@@ -54,9 +54,14 @@ $botman->hears('start', function (BotMan $bot) {
     $user = $bot->getUser();
     $user_chat = UserScore::whereChatId($user->getId())->first();
 
+    $bot->reply("Write hello to new registration ");
+
     if (!$user_chat) {
         $bot->reply("Write hello to new registration ");
     } else {
+
+        $bot->reply("welcome back : {$user_chat->name} and write start for begin exam");
+
         $bot->startConversation(new QuizConversation());
     }
 })->stopsConversation();
