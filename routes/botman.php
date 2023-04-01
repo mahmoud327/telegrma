@@ -60,7 +60,7 @@ $botman->hears('start', function (BotMan $bot) {
     } else {
 
 
-        $bot->reply("welcome back : {$user_chat->name}");
+        $bot->reply("welcome : {$user_chat->name}");
 
         $bot->startConversation(new QuizConversation());
     }
