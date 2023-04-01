@@ -23,7 +23,7 @@ $config = [
     // ],
 
     'telegram' => [
-        'token' => '6076846904:AAHtzW0YDIPGNLkhn8-vFQNwuL9PfSATFR0'
+        'token' => '5667539209:AAE02HdJtoHRv7Rw2uv9ifO5MjslMftINHU'
     ]
 ];
 
