@@ -83,7 +83,11 @@ class QuizConversation extends Conversation
 
           $user= $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers);
 
-            $this->say("{$user->name}-Your answer:{$answer->getText()} {$answerResult}");
+          $user_name=UserScore::whereChatId($this->bot->getUser()->getId())->first();
+
+
+
+            $this->say("{$user_name->name}-Your answer:{$answer->getText()} {$answerResult}");
 
 
 
@@ -114,8 +118,6 @@ class QuizConversation extends Conversation
         public  function saveUser(UserInterface $botUser, int $userPoints, int $userCorrectAnswers)
     {
         $user = UserScore::updateOrCreate(['chat_id' => $botUser->getId()], [
-            'chat_id' => $botUser->getId(),
-            'name' => $botUser->getFirstName().' '.$botUser->getLastName(),
             'points' => $userPoints,
             'correct_answers' => $userCorrectAnswers,
         ]);
