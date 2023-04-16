@@ -65,17 +65,17 @@ $botman->hears('start', function (BotMan $bot) {
 
 $botman->hears('hi', function (BotMan $bot) {
 
-    $user = $bot->getUser();
-    $user_chat = UserScore::whereChatId($user->getId())->first();
 
+    $conversation = $bot->getConversationRepository()->getConversation();
 
-    if (!$user_chat) {
-        $bot->reply("Write hello to new registration ");
+    if ($conversation instanceof QuizConversation) {
+        // If there is an existing conversation state, continue the conversation
+        $bot->startConversation($conversation);
     } else {
-
-        $bot->reply("welcome back : {$user_chat->name} ");
-
-        $bot->startConversation(new QuizConversation());
+        // Otherwise, start a new conversation
+        $bot->hears('start', function (BotMan $bot) {
+            $bot->startConversation(new QuizConversation());
+        });
     }
 })->stopsConversation();
 
