@@ -68,7 +68,7 @@ $botman->hears('hi', function (BotMan $bot) {
 
     $conversation = $bot->getConversationRepository()->getConversation();
 
-    if ($conversation instanceof QuizConversation) {
+    if ($conversation) {
         // If there is an existing conversation state, continue the conversation
         $bot->startConversation($conversation);
     } else {
