@@ -59,8 +59,21 @@ $botman->hears('start', function (BotMan $bot) {
         $bot->reply("Write hello to new registration ");
     } else {
 
+        $bot->startConversation(new QuizConversation());
+    }
+})->stopsConversation();
 
-        $bot->reply("welcome : {$user_chat->name}");
+$botman->hears('hi', function (BotMan $bot) {
+
+    $user = $bot->getUser();
+    $user_chat = UserScore::whereChatId($user->getId())->first();
+
+
+    if (!$user_chat) {
+        $bot->reply("Write hello to new registration ");
+    } else {
+
+        $bot->reply("welcome back : {$user_chat->name} , write start for begin exam");
 
         $bot->startConversation(new QuizConversation());
     }

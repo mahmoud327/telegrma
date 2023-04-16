@@ -16,7 +16,9 @@ class QuestionController extends Controller
      */
     public function index()
     {
+
         $questions = Question::latest()->paginate(10);
+
         return view('admin.questions.index', compact('questions'));
     }
 
@@ -51,6 +53,7 @@ class QuestionController extends Controller
     {
         $question = Question::findOrFail($id);
         $question->update($request->all());
+
         session()->flash('edit', 'تم اضافة سجل بنجاح ');
         return redirect()->back();
     }

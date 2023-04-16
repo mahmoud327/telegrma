@@ -41,8 +41,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
         Route::group(['middleware' => ['admin']], function () {
             Route::get('home', 'HomeController@index')->name('admin.home');
+            
 
             Route::resource('questions',QuestionController::class);
+
+
             Route::resource('user-scores',UserScoreController::class);
 
 
