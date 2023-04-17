@@ -112,7 +112,8 @@ class QuizCompleteConversation extends Conversation
 
 
             $this->say("{$user_name->name}-Your answer:{$answer->getText()} {$answerResult}");
-           $this->user->increment('number_question', 1);
+           $this->user->number_question=$this->number_question+1;
+           
            $this->user->save();
 
 
