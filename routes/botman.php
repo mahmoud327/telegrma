@@ -1,6 +1,7 @@
 <?php
 
 use App\Conversations\OnboardingConversation;
+use App\Conversations\QuizCompleteConversation;
 use App\Conversations\QuizConversation;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
@@ -76,7 +77,7 @@ $botman->hears('hi', function (BotMan $bot) {
 
         $bot->reply("welcome back : {$user_chat->name}");
 
-        $bot->startConversation(new QuizConversation());
+        $bot->startConversation(new QuizCompleteConversation($user_chat));
     }
 })->stopsConversation();
 

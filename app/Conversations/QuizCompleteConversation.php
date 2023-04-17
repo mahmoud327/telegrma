@@ -10,12 +10,18 @@ use BotMan\BotMan\Messages\Incoming\Answer;
 use BotMan\BotMan\Messages\Outgoing\Question as BotManQuestion;
 use BotMan\Drivers\Telegram\TelegramDriver;
 
-class QuizConversation extends Conversation
+class QuizCompleteConversation extends Conversation
 {
+    public $user_chat;
+    public function __construct($user_chat)
+    {
+
+        $this->user_chat = $user_chat;
+    }
     /** @var Question */
     protected $quizQuestions;
     protected $number_question = 0;
-    protected $user ;
+    protected $user;
 
 
     /** @var integer */
@@ -27,7 +33,7 @@ class QuizConversation extends Conversation
     /** @var integer */
 
     /** @var integer */
-    protected $currentQuestion = 1;
+    protected $currentQuestion = 0;
 
     protected $questionCount = 0;
 
@@ -39,29 +45,43 @@ class QuizConversation extends Conversation
         $this->quizQuestions = Question::all()->shuffle();
         $this->questionCount = $this->quizQuestions->count();
         $this->quizQuestions = $this->quizQuestions->keyBy('id');
+        $this->currentQuestion= $this->user_chat->number_question;
+
 
         $this->showInfo();
     }
     private function showInfo()
     {
-        $this->say('You will be show some questions. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
+        if ($this->user_chat->status != 'not-completed') {
+
+            $this->say('You will be show some questions. Every correct answer will reward you with a certain amount of points. Please keep it fair and don\'t use any help. All the best! 🍀');
+        }
         $this->checkForNextQuestion();
     }
 
     private function checkForNextQuestion()
     {
 
-        if ($this->quizQuestions->count()) {
+
+        $user = $this->bot->getUser();
+
+        $user_chat = UserScore::whereChatId($user->getId())->first();
+        // $this->say($user_chat);
+
+
+        if ((int)$this->user_chat->number_question == $this->questionCount || $user_chat->number_question ==9 ) {
+            $this->showResult();
+        }
+        else{
+
             return $this->askQuestion($this->quizQuestions->first());
         }
-
-        $this->showResult();
     }
     private function askQuestion(Question $question)
     {
         $questionTemplate = BotManQuestion::create($question->question);
 
-        $questionText = '➡️ Question: ' . $this->currentQuestion . ' / ' . $this->questionCount . ' : ' . $question->question;
+        $questionText = '➡️ Question: ' .  $this->currentQuestion . ' / ' . $this->questionCount . ' : ' . $question->question;
         $questionTemplate = BotManQuestion::create($questionText);
 
         $this->ask($questionTemplate, function (Answer $answer) use ($question) {
@@ -78,7 +98,7 @@ class QuizConversation extends Conversation
 
                 $answerResult = '✅';
             }
-            $this->number_question += 1;
+            // $this->number_question += 1;
 
             $this->quizQuestions->forget($question->id);
 
@@ -92,15 +112,16 @@ class QuizConversation extends Conversation
 
 
             $this->say("{$user_name->name}-Your answer:{$answer->getText()} {$answerResult}");
+           $this->user->increment('number_question', 1);
+           $this->user->save();
 
-            $this->user->increment('number_question', 1);
-            $this->user->save();
+
+
 
 
             return $this->checkForNextQuestion();
         });
     }
-
     private function showResult()
     {
 
@@ -122,14 +143,15 @@ class QuizConversation extends Conversation
 
     public  function saveUser(UserInterface $botUser, int $userPoints, int $userCorrectAnswers, $number_question)
     {
+
         $user = UserScore::updateOrCreate(['chat_id' => $botUser->getId()], [
             'points' => $userPoints,
-            // 'number_question' => $number_question,
             'correct_answers' => $userCorrectAnswers,
-            'status'=>'not-completed'
+            'status' => 'not-completed'
         ]);
 
         $user->increment('tries');
+        //    $user->number_question= $this->user_chat->number_question+1;
 
         $user->save();
 
