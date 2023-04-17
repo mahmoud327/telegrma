@@ -65,18 +65,17 @@ $botman->hears('start', function (BotMan $bot) {
 
 $botman->hears('hi', function (BotMan $bot) {
 
+    $user = $bot->getUser();
+    $user_chat = UserScore::whereChatId($user->getId())->first();
 
-    $conversation = $bot->getConversationRepository()->getConversation();
 
-    if ($conversation) {
-        // If there is an existing conversation state, continue the conversation
-        $bot->startConversation($conversation);
+    if (!$user_chat) {
+        $bot->reply("welcome back : {$user_chat->name}");
     } else {
-        // Otherwise, start a new conversation
-        $bot->hears('start', function (BotMan $bot) {
-            $bot->startConversation(new QuizConversation());
-        });
+
+        $bot->startConversation(new QuizConversation());
     }
 })->stopsConversation();
+
 
 $botman->listen();
