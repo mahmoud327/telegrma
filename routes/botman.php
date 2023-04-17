@@ -70,8 +70,11 @@ $botman->hears('hi', function (BotMan $bot) {
 
 
     if (!$user_chat) {
-        $bot->reply("welcome back : {$user_chat->name}");
+        $bot->reply("Write hello to new registration ");
+
     } else {
+
+        $bot->reply("welcome back : {$user_chat->name}");
 
         $bot->startConversation(new QuizConversation());
     }
