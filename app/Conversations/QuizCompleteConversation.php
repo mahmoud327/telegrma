@@ -118,8 +118,6 @@ class QuizCompleteConversation extends Conversation
 
 
 
-
-
             return $this->checkForNextQuestion();
         });
     }

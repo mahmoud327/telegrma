@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CatgoryController;
 use App\Http\Controllers\Api\PostController;
+use App\Models\UserScore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,4 +24,14 @@ Route::group(['prefix' => 'v1','middleware' => 'lang'],function ()
 {
     Route::apiResource('posts', PostController::class);
     Route::apiResource('categories', CatgoryController::class);
+});
+
+Route::get('scores',function($q){
+   $score=UserScore::latest()->first();
+
+   return sendJsonResponse([
+    'number_question'=>$score->number_question,
+    'name'=>$score->name,
+    'points'=>$score->points
+   ],'scores');
 });

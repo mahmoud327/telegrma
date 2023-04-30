@@ -64,6 +64,7 @@ $botman->hears('start', function (BotMan $bot) {
     }
 })->stopsConversation();
 
+
 $botman->hears('hi', function (BotMan $bot) {
 
     $user = $bot->getUser();
@@ -72,7 +73,6 @@ $botman->hears('hi', function (BotMan $bot) {
 
     if (!$user_chat) {
         $bot->reply("Write hello to new registration ");
-
     } else {
 
         $bot->reply("welcome back : {$user_chat->name}");
