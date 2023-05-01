@@ -32,6 +32,6 @@ Route::get('scores', function () {
     return sendJsonResponse([
         'name' => $score->name,
 
-        'type_answer' => $this->type_answer
+        'type_answer' => $score->type_answer
     ], 'scores');
 });
