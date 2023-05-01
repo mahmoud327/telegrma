@@ -89,13 +89,15 @@ class QuizCompleteConversation extends Conversation
 
 
             $quizAnswer = Question::where('answer', $answer->getText())->first();
+            $user_name = UserScore::whereChatId($this->bot->getUser()->getId())->first();
+
 
             if (!$quizAnswer) {
                 $answerResult = '❌';
 
                 HistoryUserScore::create([
 
-                    'name' =>$this->user->name,
+                    'name' =>$user_name->name,
                     'type_answer' => 'f',
                 ]);
             } else {
@@ -104,7 +106,7 @@ class QuizCompleteConversation extends Conversation
 
                 HistoryUserScore::create([
 
-                    'name' =>$this->user->name,
+                    'name' =>$user_name->name,
                     'type_answer' => 't',
                 ]);
 
@@ -119,7 +121,6 @@ class QuizCompleteConversation extends Conversation
 
             $this->user = $this->saveUser($this->bot->getUser(), $this->userPoints, $this->userCorrectAnswers, $this->number_question);
 
-            $user_name = UserScore::whereChatId($this->bot->getUser()->getId())->first();
 
 
 
