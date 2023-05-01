@@ -28,11 +28,11 @@ Route::group(['prefix' => 'v1', 'middleware' => 'lang'], function () {
 
 Route::get('scores', function () {
     $score = HistoryUserScore::latest()->first();
-    $points = UserScore::where('name', $score->name)->first();
+    $points = UserScore::where('name',$score->name)->first();
 
     return sendJsonResponse([
         'name' => $score->name,
-        'points' => $score->points,
+        'points' => $points->points,
 
         'type_answer' => $score->type_answer
     ], 'scores');
