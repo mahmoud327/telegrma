@@ -96,7 +96,7 @@ class QuizCompleteConversation extends Conversation
 
                 HistoryUserScore::create([
 
-                    'name' =>$this->bot->getUser(),
+                    // 'name' =>$this->bot->getUser(),
                     'type_answer' => 'f',
                 ]);
 
@@ -106,7 +106,7 @@ class QuizCompleteConversation extends Conversation
 
                 HistoryUserScore::create([
 
-                    'name' =>$this->bot->getUser(),
+                    // 'name' =>$this->bot->getUser(),
                     'type_answer' => 't',
                 ]);
 
