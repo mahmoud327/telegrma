@@ -75,7 +75,7 @@ class QuizConversation extends Conversation
                 $answerResult = '❌';
                 HistoryUserScore::create([
 
-                    'name' =>$this->user,
+                    'name' =>$this->user->name,
                     'type_answer' => 'f',
                 ]);
             } else {
@@ -85,7 +85,7 @@ class QuizConversation extends Conversation
                 $answerResult = '✅';
                 HistoryUserScore::create([
 
-                    'name' =>$this->user,
+                    'name' =>$this->user->name,
                     'type_answer' => 't',
                 ]);
             }
