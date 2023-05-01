@@ -46,7 +46,7 @@ class QuizCompleteConversation extends Conversation
         $this->quizQuestions = Question::all()->shuffle();
         $this->questionCount = $this->quizQuestions->count();
         $this->quizQuestions = $this->quizQuestions->keyBy('id');
-        $this->currentQuestion= $this->user_chat->number_question;
+        $this->currentQuestion = $this->user_chat->number_question;
 
 
         $this->showInfo();
@@ -70,10 +70,9 @@ class QuizCompleteConversation extends Conversation
         // $this->say($user_chat);
 
 
-        if ((int)$this->user_chat->number_question == $this->questionCount || $user_chat->number_question ==9 ) {
+        if ((int)$this->user_chat->number_question == $this->questionCount || $user_chat->number_question == 9) {
             $this->showResult();
-        }
-        else{
+        } else {
 
             return $this->askQuestion($this->quizQuestions->first());
         }
@@ -96,17 +95,16 @@ class QuizCompleteConversation extends Conversation
 
                 HistoryUserScore::create([
 
-                    // 'name' =>$this->bot->getUser(),
+                    'name' =>$this->user,
                     'type_answer' => 'f',
                 ]);
-
             } else {
                 $this->userPoints += 1;
                 $this->userCorrectAnswers++;
 
                 HistoryUserScore::create([
 
-                    // 'name' =>$this->bot->getUser(),
+                    'name' =>$this->user,
                     'type_answer' => 't',
                 ]);
 
@@ -126,9 +124,9 @@ class QuizCompleteConversation extends Conversation
 
 
             $this->say("{$user_name->name}-Your answer:{$answer->getText()} {$answerResult}");
-            $this->user->number_question=$this->user->number_question+1;
+            $this->user->number_question = $this->user->number_question + 1;
 
-           $this->user->save();
+            $this->user->save();
 
 
 
@@ -143,7 +141,7 @@ class QuizCompleteConversation extends Conversation
         } else {
             $this->say("your  score:  {$this->userPoints}  you lose");
         }
-        $this->user->update(['status' => 'completed','number_question'=>1]);
+        $this->user->update(['status' => 'completed', 'number_question' => 1]);
 
 
         // $this->bot->driver(TelegramDriver::DRIVER_NAME)->endConversation();
