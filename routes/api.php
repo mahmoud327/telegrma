@@ -32,7 +32,7 @@ Route::get('scores', function () {
 
     return sendJsonResponse([
         'name' => $score->name,
-        'points' => $points->points,
+        'points' => (int)$points->points,
 
         'type_answer' => $score->type_answer
     ], 'scores');
