@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\Models\HistoryUserScore;
 use App\Models\Question;
 use App\Models\UserScore;
 use BotMan\BotMan\Interfaces\UserInterface;
@@ -72,11 +73,21 @@ class QuizConversation extends Conversation
 
             if (!$quizAnswer) {
                 $answerResult = '❌';
+                HistoryUserScore::create([
+
+                    'name' =>$this->bot->getUser(),
+                    'type_answer' => 'f',
+                ]);
             } else {
                 $this->userPoints += 1;
                 $this->userCorrectAnswers++;
 
                 $answerResult = '✅';
+                HistoryUserScore::create([
+
+                    'name' =>$this->bot->getUser(),
+                    'type_answer' => 't',
+                ]);
             }
             $this->number_question += 1;
 

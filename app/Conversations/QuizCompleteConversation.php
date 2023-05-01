@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\Models\HistoryUserScore;
 use App\Models\Question;
 use App\Models\UserScore;
 use BotMan\BotMan\Interfaces\UserInterface;
@@ -92,9 +93,22 @@ class QuizCompleteConversation extends Conversation
 
             if (!$quizAnswer) {
                 $answerResult = '❌';
+
+                HistoryUserScore::create([
+
+                    'name' =>$this->bot->getUser(),
+                    'type_answer' => 'f',
+                ]);
+
             } else {
                 $this->userPoints += 1;
                 $this->userCorrectAnswers++;
+
+                HistoryUserScore::create([
+
+                    'name' =>$this->bot->getUser(),
+                    'type_answer' => 't',
+                ]);
 
                 $answerResult = '✅';
             }
@@ -149,10 +163,15 @@ class QuizCompleteConversation extends Conversation
             'status' => 'not-completed'
         ]);
 
+
+
         $user->increment('tries');
         //    $user->number_question= $this->user_chat->number_question+1;
 
         $user->save();
+
+
+
 
         return $user;
     }
